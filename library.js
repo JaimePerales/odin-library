@@ -26,16 +26,47 @@ function displayMyLibrary(myBooks) {
     }
     for (let i = 0; i < myBooks.length; i += 1) {
         const newBook = document.createElement('div');
-        const h = document.createElement("H1");
-        let t = document.createTextNode(myBooks[i].title);
-        h.appendChild(t);
-        t = document.createTextNode(myBooks[i].author);
-        h.appendChild(t);
-        t = document.createTextNode(myBooks[i].pages);
-        h.appendChild(t);
-        t = document.createTextNode(myBooks[i].read);
-        h.appendChild(t);
-        newBook.appendChild(h);
+        newBook.classList.add('book-card');
+
+        const testDiv = document.createElement('div');
+        testDiv.classList.add('test-div');
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('close-button');
+        deleteButton.innerHTML = `&times`;
+        deleteButton.id = `${i}`;
+        deleteButton.addEventListener("click", () => {
+            myBooks.splice(i, 1)
+            displayMyLibrary(myBooks)
+        });
+        testDiv.appendChild(deleteButton);
+
+        const bookImg = document.createElement('img');
+        bookImg.setAttribute('src', 'book-open-variant.svg');
+        testDiv.appendChild(bookImg);
+
+        newBook.appendChild(testDiv);
+
+        const bookTitle = document.createElement('p');
+        bookTitle.textContent = myBooks[i].title;
+        newBook.appendChild(bookTitle);
+
+        const by = document.createElement('p');
+        by.textContent = 'by';
+        newBook.appendChild(by);
+
+        const bookAuthor = document.createElement('p');
+        bookAuthor.textContent = myBooks[i].author;
+        newBook.appendChild(bookAuthor);
+
+        const bookPages = document.createElement('p');
+        bookPages.textContent = myBooks[i].pages;
+        newBook.appendChild(bookPages);
+
+        const bookRead = document.createElement('p');
+        bookRead.textContent = `${myBooks[i].read ? 'Already Read':'Not Yet Read'}`;
+        newBook.appendChild(bookRead);
+
         bookCards.appendChild(newBook);
     }
 }
@@ -58,7 +89,26 @@ function addBookToLibrary(event) {
     form.reset();
 }
 
+
+
 addBookButton.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 submitButton.addEventListener("click", addBookToLibrary);
+
+
+
+const testBook = new Book('Book Title', 'Book Author', 999, true);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+myLibrary.push(testBook);
+
+
+displayMyLibrary(myLibrary);
