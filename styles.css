@@ -117,6 +117,14 @@
         height: 100px;
     }
     
+    .book-read {
+        display: flex;
+    }
+    
+    .book-read input {
+        align-self: flex-end;
+    }
+    
     .show-modal {
         opacity: 1;
         visibility: visible;

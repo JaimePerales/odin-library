@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // Holds all books
 const myLibrary = [];
 
@@ -18,6 +19,7 @@ const closeButton = document.querySelector(".close-button");
 const submitButton = document.querySelector(".submit-btn");
 const bookCards = document.querySelector(".book-cards");
 const form = document.querySelector("#form");
+
 
 // Displays books in myLibrary as cards.
 function displayMyLibrary(myBooks) {
@@ -63,8 +65,31 @@ function displayMyLibrary(myBooks) {
         bookPages.textContent = myBooks[i].pages;
         newBook.appendChild(bookPages);
 
-        const bookRead = document.createElement('p');
-        bookRead.textContent = `${myBooks[i].read ? 'Already Read':'Not Yet Read'}`;
+        const bookRead = document.createElement('div');
+        bookRead.classList.add('book-read');
+        const bookReadText = document.createElement('p');
+        const bookReadCheckbox = document.createElement('input');
+        bookReadCheckbox.setAttribute('type', 'checkbox');
+        bookReadCheckbox.checked = myBooks[i].read;
+        bookReadCheckbox.addEventListener('change', () => {
+            if (bookReadCheckbox.checked) {
+
+                myBooks[i].read = true;
+                displayMyLibrary(myBooks);
+            } else {
+                myBooks[i].read = false;
+                displayMyLibrary(myBooks);
+            }
+        });
+
+
+
+
+        bookReadText.textContent = `${myBooks[i].read ? 'Already Read':'Not Yet Read'}`;
+
+        bookRead.appendChild(bookReadCheckbox);
+        bookRead.appendChild(bookReadText);
+
         newBook.appendChild(bookRead);
 
         bookCards.appendChild(newBook);
@@ -84,7 +109,7 @@ function windowOnClick(event) {
 function addBookToLibrary(event) {
     event.preventDefault();
     toggleModal();
-    myLibrary.push(new Book(form.title.value, form.author.value, form.pages.value, true))
+    myLibrary.push(new Book(form.title.value, form.author.value, form.pages.value, form.read.checked))
     displayMyLibrary(myLibrary);
     form.reset();
 }
@@ -95,20 +120,5 @@ addBookButton.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 submitButton.addEventListener("click", addBookToLibrary);
-
-
-
-const testBook = new Book('Book Title', 'Book Author', 999, true);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-myLibrary.push(testBook);
-
 
 displayMyLibrary(myLibrary);
